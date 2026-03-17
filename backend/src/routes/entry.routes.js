@@ -1,6 +1,4 @@
 import { Router } from "express";
-import { verifyJWT } from "../middlewares/auth.middlewares.js";
-
 import {
   createEntry,
   getMyEntries,
@@ -11,17 +9,19 @@ import {
 
 const router = Router();
 
-// ✅ All entry routes are protected
-router.use(verifyJWT);
+// ❌ Abhi ke liye verifyJWT hata do
+// router.use(verifyJWT);
 
-// Create + List
-router.route("/").post(createEntry).get(getMyEntries);
+// Test log
+router.post("/", (req, res, next) => {
+  console.log("ENTRY ROUTE HIT");
+  next();
+}, createEntry);
 
-// Single entry
-router
-  .route("/:entryId")
-  .get(getEntryById)
-  .patch(updateEntry)
-  .delete(deleteEntry);
+router.get("/", getMyEntries);
+
+router.get("/:entryId", getEntryById);
+router.patch("/:entryId", updateEntry);
+router.delete("/:entryId", deleteEntry);
 
 export default router;

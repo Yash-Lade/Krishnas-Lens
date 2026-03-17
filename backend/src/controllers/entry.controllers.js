@@ -1,54 +1,58 @@
+import { Entry } from "../model/entry.model.js";
+import { analyzeThought } from "../services/ai.service.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
-import { Entry } from "../model/entry.model.js";
+
+console.log("ENTRY CONTROLLER LOADED");
+
 
 /**
- * ✅ Template-based Lens Generator (No ML)
- * Same thought ko 3 perspectives me convert karta hai.
+ * Generate Lens Views
  */
-const generateLensViews = ({ thoughtText, mood, severity }) => {
+const generateLensViews = ({ thoughtText, mood, emotion, context, verses }) => {
+
   const text = (thoughtText || "").trim();
 
-  // Emotional Lens
-  const emotionalView = `I understand you’re feeling ${
-    mood || "stressed"
-  }. It’s completely okay to feel this way.  
-What you’re experiencing is valid — and you’re not alone.  
-Take a deep breath. One step at a time, you will get through this.`;
+  const emotionalLens = `I sense that you may be feeling ${emotion || mood || "stressed"}.
 
-  // Strategic Lens
-  const strategicView = `Let’s handle this situation step-by-step:
+Your feelings are valid. Moments of ${emotion || "difficulty"} are part of being human.
 
-1) Identify the core issue: "${text.slice(0, 120)}${text.length > 120 ? "..." : ""}"
-2) Write down 2–3 small actions you can take today.
-3) Focus on what is in your control, not what is not.
-4) If severity is "${
-    severity || "Low"
-  }", take a short break and then restart with a plan.
-5) If required, talk to a trusted friend/mentor for guidance.
+Pause for a moment. Breathe slowly. Even challenging emotions carry messages that can guide us toward growth.`;
 
-Small consistent steps = big results.`;
 
-  // Spiritual Lens (Gita inspired, paraphrased)
-  const spiritualView = `Krishna teaches *Samatvam* — balance in both success and failure.
+  const strategicLens = `Let's approach this situation practically.
 
-You are not defined by a single moment.  
-Do your best action (*karma*) with full sincerity, and let go of excessive worry about outcomes.
+Context detected: ${context || "life situation"}
 
-"Focus on duty, not the fruit." (Gita-inspired)
+Step-by-step approach:
+1. Identify the core concern: "${text.slice(0,120)}${text.length > 120 ? "..." : ""}"
+2. Break the challenge into smaller actionable steps.
+3. Focus on actions within your control.
+4. Start with one small improvement today.
+5. If needed, seek guidance from a mentor or trusted friend.
 
-When the mind feels heavy, return to your center: calm breath, steady effort, and trust in the journey.`;
+Progress is built through small consistent actions.`;
 
-  return { emotionalView, strategicView, spiritualView };
+
+  const spiritualLens = `From a Bhagavad Gita perspective:
+
+"${verses?.[0] || "You have a right to perform your duties, but not to the fruits of your actions."}"
+
+Krishna teaches Samatvam — maintaining balance in both success and difficulty.
+
+Focus on right action, stay calm, and trust the journey.`;
+
+  return { emotionalLens, strategicLens, spiritualLens };
 };
 
+
+
 /**
- * ✅ CREATE ENTRY (Submit Thought)
- * POST /api/entries
- * protected
+ * CREATE ENTRY
  */
 const createEntry = asyncHandler(async (req, res) => {
+
   const userId = req.user?._id || req.user?.id;
   const { thoughtText, mood, severity } = req.body;
 
@@ -62,50 +66,85 @@ const createEntry = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Thought text must be at least 10 characters");
   }
 
-  // ✅ generate lens outputs (no ML)
-  const { emotionalView, strategicView, spiritualView } = generateLensViews({
-    thoughtText,
-    mood,
-    severity,
+  console.log("ENTRY CREATE CALLED");
+
+  let emotion = "neutral";
+  let context = "general";
+  let verses = [];
+
+  try {
+
+    const analysis = await analyzeThought(thoughtText);
+
+    console.log("ML RESPONSE =>", analysis);
+
+    emotion = analysis?.emotion || emotion;
+    context = analysis?.context || context;
+    verses = analysis?.verses || [];
+
+  } catch (error) {
+
+    console.log("ML ERROR =>", error.message);
+
+  }
+
+  const { emotionalLens, strategicLens, spiritualLens } =
+    generateLensViews({
+      thoughtText,
+      mood,
+      emotion,
+      context,
+      verses
+    });
+
+  console.log("LENS GENERATED =>", {
+    emotionalLens,
+    strategicLens,
+    spiritualLens
   });
 
   const entry = await Entry.create({
     userId,
     thoughtText: thoughtText.trim(),
-    mood: mood || "Other",
-    severity: severity || "Low",
-    emotionalView,
-    strategicView,
-    spiritualView,
+    mood: mood || emotion || "calm",
+    severity: severity || "low",
+    emotionalLens,
+    strategicLens,
+    spiritualLens
   });
 
   return res
     .status(201)
     .json(new ApiResponse(201, entry, "Entry created successfully ✅"));
+
 });
 
+
+
 /**
- * ✅ GET MY ENTRIES (History)
- * GET /api/entries
- * protected
+ * GET MY ENTRIES
  */
 const getMyEntries = asyncHandler(async (req, res) => {
+
   const userId = req.user?._id || req.user?.id;
+
   if (!userId) throw new ApiError(401, "Unauthorized");
 
-  const entries = await Entry.find({ userId }).sort({ createdAt: -1 });
+  const entries = await Entry.find({ userId })
+    .sort({ createdAt: -1 });
 
   return res
     .status(200)
     .json(new ApiResponse(200, entries, "Entries fetched successfully ✅"));
 });
 
+
+
 /**
- * ✅ GET SINGLE ENTRY
- * GET /api/entries/:entryId
- * protected
+ * GET ENTRY BY ID
  */
 const getEntryById = asyncHandler(async (req, res) => {
+
   const userId = req.user?._id || req.user?.id;
   const { entryId } = req.params;
 
@@ -121,12 +160,13 @@ const getEntryById = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, entry, "Entry fetched successfully ✅"));
 });
 
+
+
 /**
- * ✅ UPDATE ENTRY (Edit Thought)
- * PATCH /api/entries/:entryId
- * protected
+ * UPDATE ENTRY
  */
 const updateEntry = asyncHandler(async (req, res) => {
+
   const userId = req.user?._id || req.user?.id;
   const { entryId } = req.params;
   const { thoughtText, mood, severity } = req.body;
@@ -135,29 +175,39 @@ const updateEntry = asyncHandler(async (req, res) => {
   if (!entryId) throw new ApiError(400, "Entry ID is required");
 
   const entry = await Entry.findOne({ _id: entryId, userId });
+
   if (!entry) throw new ApiError(404, "Entry not found");
 
-  // ✅ update fields if provided
   if (thoughtText && thoughtText.trim()) {
+
     if (thoughtText.trim().length < 10) {
       throw new ApiError(400, "Thought text must be at least 10 characters");
     }
+
     entry.thoughtText = thoughtText.trim();
+
+    const analysis = await analyzeThought(entry.thoughtText);
+
+    const emotion = analysis?.emotion;
+    const context = analysis?.context;
+    const verses = analysis?.verses || [];
+
+    const { emotionalLens, strategicLens, spiritualLens } =
+      generateLensViews({
+        thoughtText: entry.thoughtText,
+        mood: mood || entry.mood,
+        emotion,
+        context,
+        verses
+      });
+
+    entry.emotionalLens = emotionalLens;
+    entry.strategicLens = strategicLens;
+    entry.spiritualLens = spiritualLens;
   }
 
   if (mood) entry.mood = mood;
   if (severity) entry.severity = severity;
-
-  // ✅ regenerate lens if any core field changed
-  const { emotionalView, strategicView, spiritualView } = generateLensViews({
-    thoughtText: entry.thoughtText,
-    mood: entry.mood,
-    severity: entry.severity,
-  });
-
-  entry.emotionalView = emotionalView;
-  entry.strategicView = strategicView;
-  entry.spiritualView = spiritualView;
 
   await entry.save();
 
@@ -166,12 +216,13 @@ const updateEntry = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, entry, "Entry updated successfully ✅"));
 });
 
+
+
 /**
- * ✅ DELETE ENTRY
- * DELETE /api/entries/:entryId
- * protected
+ * DELETE ENTRY
  */
 const deleteEntry = asyncHandler(async (req, res) => {
+
   const userId = req.user?._id || req.user?.id;
   const { entryId } = req.params;
 
@@ -187,10 +238,12 @@ const deleteEntry = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, {}, "Entry deleted successfully ✅"));
 });
 
+
+
 export {
   createEntry,
   getMyEntries,
   getEntryById,
   updateEntry,
-  deleteEntry,
+  deleteEntry
 };
