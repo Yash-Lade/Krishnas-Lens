@@ -14,8 +14,6 @@ The system analyzes a user's problem using machine learning models to detect:
 It then retrieves relevant philosophical insights from the Bhagavad Gita using a **RAG (Retrieval-Augmented Generation)** pipeline and generates thoughtful responses using an LLM.
 
 
----
-
 ## 🏗️ Tech Stack
 
 | Layer        | Technology Used |
