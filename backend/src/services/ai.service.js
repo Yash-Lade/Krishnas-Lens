@@ -1,28 +1,32 @@
 import axios from "axios";
 
-export const analyzeThought = async (text) => {
+export const analyzeThought = async (thoughtText) => {
   try {
-
-    console.log("➡️ Calling Python ML API...");
 
     const response = await axios.post(
       "http://127.0.0.1:8000/analyze",
-      { text },
-      { timeout: 5000 }
+      {
+        text: thoughtText
+      }
     );
 
-    console.log("✅ ML RESPONSE:", response.data);
+    const data = response.data;
 
-    return response.data;
+    return {
+      emotion: data?.emotion || "neutral",
+      context: data?.context || "life",
+      perspectives: data?.perspectives || {}
+    };
 
   } catch (error) {
 
-    console.log("❌ ML API ERROR:", error.message);
+    console.log("PYTHON ML API ERROR =>", error.message);
 
     return {
       emotion: "neutral",
-      context: "general",
-      verses: []
+      context: "life",
+      perspectives: {}
     };
+
   }
 };
