@@ -38,11 +38,17 @@ export default function Topbar() {
         flexWrap: { xs: "wrap", md: "nowrap" },
       }}
     >
-      <Box sx={{ minWidth: 160 }}>
-        <Typography sx={{ fontSize: { xs: 20, md: 26 }, fontWeight: 1000 }}>
-          {title}
-        </Typography>
-      </Box>
+    <Box sx={{ minWidth: 160 }}>
+  <Typography
+    sx={{
+      fontSize: "1.45rem",
+      fontWeight: 1000,
+      letterSpacing: 0.2,
+    }}
+  >
+    {title}
+  </Typography>
+</Box>
 
       {/* ✅ Search bar (hide on mobile) */}
       <Box sx={{ flex: 1, minWidth: 260, display: { xs: "none", md: "block" } }}>

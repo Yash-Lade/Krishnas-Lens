@@ -6,11 +6,12 @@ import {
   updateEntry,
   deleteEntry,
 } from "../controllers/entry.controllers.js";
+import { verifyJWT } from "../middlewares/auth.middlewares.js";
 
 const router = Router();
 
 // ❌ Abhi ke liye verifyJWT hata do
-// router.use(verifyJWT);
+router.use(verifyJWT);
 
 // Test log
 router.post("/", (req, res, next) => {
