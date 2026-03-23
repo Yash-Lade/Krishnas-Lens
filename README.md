@@ -1,4 +1,4 @@
-# 🧠 Krishna’s Lens
+# Krishna’s Lens
 
 ### Bhagavad Gita Inspired AI Guidance System
 
@@ -207,12 +207,11 @@ This system is designed as a **reflective guidance tool**, not a replacement for
 * Multi-language support
 * Personalization based on user history
 
-## 🙏 Inspiration
+## Inspiration
 
 Inspired by the teachings of the **Bhagavad Gita**, reimagined as a modern AI system for self-reflection and clarity.
 
 ---
-
 
 
 ## System Architecture
