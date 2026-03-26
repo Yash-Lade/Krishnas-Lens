@@ -70,8 +70,6 @@ krishnas-lens/
 * Model: **SVM + TF-IDF**
 * Classes: academics, peer_pressure, self_identity, etc.
 
----
-
 ## 🔍 RAG Pipeline
 
 1. Query is built using:
