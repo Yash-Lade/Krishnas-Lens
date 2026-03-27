@@ -1,6 +1,6 @@
 # Krishna’s Lens
 
-### Bhagavad Gita Inspired AI Guidance System
+### Krishna's teachings from Bhagvad Gita Inspired AI Guidance System
 
 Krishna’s Lens is a hybrid **ML + RAG + LLM system** designed to help teenagers reflect on personal challenges through three structured perspectives — **Emotional, Strategic, and Spiritual** — inspired by the teachings of the Bhagavad Gita.
 
