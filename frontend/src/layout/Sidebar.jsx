@@ -64,7 +64,7 @@ export default function Sidebar() {
       >
         <Typography
           sx={{
-            fontSize: 22,
+            fontSize: "1.45rem",
             fontWeight: 1000,
             color: "#2F8790",
             letterSpacing: 0.2,

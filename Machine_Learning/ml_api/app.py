@@ -7,10 +7,15 @@ import os
 import pandas as pd
 import random
 import json
-from groq import Groq # llm for rag pipeline
 
-GROQ_KEY = os.getenv("GROQ_API_KEY")
-client = Groq(api_key = GROQ_KEY)
+from dotenv import load_dotenv
+from groq import Groq
+
+load_dotenv()
+
+api_key = os.getenv("GROQ_API_KEY")
+client = Groq(api_key=api_key)
+
 app = FastAPI()
 
 # sentence transformer for embedding the query to vector
