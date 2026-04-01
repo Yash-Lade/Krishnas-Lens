@@ -164,6 +164,9 @@ Response → Frontend
 ### 1. Start FastAPI (ML Service)
 
 ```bash
+cd Machine_Learning
+pip install requirements.txt
+
 cd ml_api
 uvicorn app:app --reload
 ```
