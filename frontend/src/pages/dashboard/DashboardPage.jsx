@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Box, Typography, Chip } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
@@ -9,32 +9,8 @@ import FeedbackList from "../../components/feedback/FeedbackList";
 
 import { getMyEntriesApi } from "../../services/entryApi";
 
-// ✅ assets (use these only)
+// assets
 import featherGlow from "../../assets/images/feather-glow.png";
-
-const moodUI = (mood) => {
-  const map = {
-    calm: { label: "Calm", bg: "rgba(59,130,246,0.12)", color: "#1D4ED8" },
-    happy: { label: "Happy", bg: "rgba(34,197,94,0.14)", color: "#166534" },
-    anxious: { label: "Anxious", bg: "rgba(234,179,8,0.16)", color: "#854D0E" },
-    stressed: { label: "Stressed", bg: "rgba(234,179,8,0.16)", color: "#854D0E" },
-    sad: { label: "Sad", bg: "rgba(148,163,184,0.22)", color: "#334155" },
-  };
-
-  return (
-    map[mood] || {
-      label: "Balanced",
-      bg: "rgba(148,163,184,0.18)",
-      color: "#334155",
-    }
-  );
-};
-
-const severityScore = (severity) => {
-  if (severity === "high") return 85;
-  if (severity === "medium") return 55;
-  return 25;
-};
 
 const glassCard = {
   borderRadius: 4,
@@ -66,19 +42,11 @@ export default function DashboardPage() {
   const recent = entries.slice(0, 6);
   const latestEntryId = recent?.[0]?._id;
 
-  const topMood = recent?.[0]?.mood || "calm";
-  const mood = moodUI(topMood);
-
-  const score = useMemo(
-    () => severityScore(recent?.[0]?.severity || "low"),
-    [recent]
-  );
-
   if (loading) return <Loader text="Loading dashboard..." />;
 
   return (
     <Box sx={{ display: "grid", gap: 2 }}>
-      {/* ✅ Insight row */}
+      {/* Insight row */}
       <Box
         sx={{
           display: "grid",
@@ -86,44 +54,7 @@ export default function DashboardPage() {
           gridTemplateColumns: { xs: "1fr", md: "repeat(3, 1fr)" },
         }}
       >
-        {/* Mood */}
-        <Box sx={{ ...glassCard, p: 2.2 }}>
-          <Typography sx={{ fontWeight: 1000, fontSize: 14, color: "text.secondary" }}>
-            Recent Mood
-          </Typography>
-
-          <Typography sx={{ fontWeight: 1000, fontSize: 22, mt: 0.4 }}>
-            {mood.label}
-          </Typography>
-
-          <Chip
-            label={recent.length ? "Tracked from last entry" : "No entries yet"}
-            sx={{
-              mt: 1.2,
-              borderRadius: 999,
-              fontWeight: 900,
-              background: mood.bg,
-              color: mood.color,
-            }}
-          />
-        </Box>
-
-        {/* Stress */}
-        <Box sx={{ ...glassCard, p: 2.2 }}>
-          <Typography sx={{ fontWeight: 1000, fontSize: 14, color: "text.secondary" }}>
-            Stress Score
-          </Typography>
-
-          <Typography sx={{ fontWeight: 1000, fontSize: 22, mt: 0.4 }}>
-            {score}/100
-          </Typography>
-
-          <Typography sx={{ mt: 1.1, color: "text.secondary" }}>
-            Based on severity level
-          </Typography>
-        </Box>
-
-        {/* Total */}
+        {/* Total Entries ONLY */}
         <Box sx={{ ...glassCard, p: 2.2 }}>
           <Typography sx={{ fontWeight: 1000, fontSize: 14, color: "text.secondary" }}>
             Total Entries
@@ -139,7 +70,7 @@ export default function DashboardPage() {
         </Box>
       </Box>
 
-      {/* ✅ Quote Banner (FINAL aligned feather) */}
+      {/* Quote Banner */}
       <Box
         sx={{
           ...glassCard,
@@ -153,7 +84,6 @@ export default function DashboardPage() {
           gap: 2,
         }}
       >
-        {/* ✅ Background subtle aura */}
         <Box
           sx={{
             position: "absolute",
@@ -208,17 +138,7 @@ export default function DashboardPage() {
 
           <Box sx={{ mt: 2, display: "flex", gap: 1, flexWrap: "wrap" }}>
             <Chip
-              label={mood.label}
-              sx={{
-                fontWeight: 1000,
-                borderRadius: 999,
-                px: 1,
-                background: mood.bg,
-                color: mood.color,
-              }}
-            />
-            <Chip
-              label={recent.length ? "Recent mood tracked" : "No entries yet"}
+              label={recent.length ? "Recent entries available" : "No entries yet"}
               sx={{
                 fontWeight: 900,
                 borderRadius: 999,
@@ -228,7 +148,7 @@ export default function DashboardPage() {
           </Box>
         </Box>
 
-        {/* RIGHT VISUAL (feather locked to corner) */}
+        {/* RIGHT VISUAL */}
         <Box
           sx={{
             zIndex: 1,
@@ -238,7 +158,6 @@ export default function DashboardPage() {
             display: { xs: "none", md: "block" },
           }}
         >
-          {/* ✅ glass overlay gives premium depth */}
           <Box
             sx={{
               position: "absolute",
@@ -249,7 +168,6 @@ export default function DashboardPage() {
             }}
           />
 
-          {/* ✅ feather image perfectly aligned */}
           <Box
             component="img"
             src={featherGlow}
@@ -267,7 +185,6 @@ export default function DashboardPage() {
             }}
           />
 
-          {/* ✅ extra soft highlight behind feather */}
           <Box
             sx={{
               position: "absolute",
@@ -286,7 +203,7 @@ export default function DashboardPage() {
         </Box>
       </Box>
 
-      {/* ✅ Recent Entries */}
+      {/* Recent Entries */}
       <Box sx={{ ...glassCard, p: { xs: 2, md: 2.5 } }}>
         <Box
           sx={{
@@ -327,7 +244,7 @@ export default function DashboardPage() {
         />
       </Box>
 
-      {/* ✅ Feedback */}
+      {/* Feedback */}
       <Box sx={{ ...glassCard, p: { xs: 2, md: 2.5 } }}>
         <FeedbackForm entryId={latestEntryId} />
       </Box>

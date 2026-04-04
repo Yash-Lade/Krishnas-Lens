@@ -12,8 +12,6 @@ export default function SubmitThoughtPage() {
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
     thoughtText: "",
-    mood: "calm",
-    severity: "low",
   });
 
   const handleSubmit = async () => {
@@ -22,8 +20,6 @@ export default function SubmitThoughtPage() {
 
       const res = await createEntryApi({
         thoughtText: form.thoughtText,
-        mood: form.mood,
-        severity: form.severity,
       });
 
       const entryId = res?.data?.data?._id || res?.data?._id;
@@ -38,7 +34,7 @@ export default function SubmitThoughtPage() {
   };
 
   const clearForm = () => {
-    setForm({ thoughtText: "", mood: "calm", severity: "low" });
+    setForm({ thoughtText: "" });
     showSnackbar("Cleared ✅", "info");
   };
 
@@ -90,10 +86,6 @@ export default function SubmitThoughtPage() {
             />
             <Chip
               label="✅ Keep it short and specific"
-              sx={{ justifyContent: "flex-start", fontWeight: 900 }}
-            />
-            <Chip
-              label="✅ Choose mood + severity carefully"
               sx={{ justifyContent: "flex-start", fontWeight: 900 }}
             />
           </Box>
