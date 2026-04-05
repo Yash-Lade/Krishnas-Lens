@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Box, Typography, Button, Chip } from "@mui/material";
+import { Box, Typography, Button } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import Loader from "../../components/common/Loader";
 import LensOutput from "../../components/entries/LensOutput";
@@ -47,17 +47,6 @@ export default function EntryResultPage() {
         <Typography sx={{ mt: 1, color: "text.secondary", lineHeight: 1.7 }}>
           {entry?.thoughtText}
         </Typography>
-
-        <Box sx={{ mt: 2, display: "flex", gap: 1, flexWrap: "wrap" }}>
-          <Chip
-            label={`Mood: ${(entry?.mood || "calm").toUpperCase()}`}
-            sx={{ borderRadius: 999, fontWeight: 1000, background: "rgba(74,163,184,0.14)" }}
-          />
-          <Chip
-            label={`Severity: ${(entry?.severity || "low").toUpperCase()}`}
-            sx={{ borderRadius: 999, fontWeight: 1000, background: "rgba(15,23,42,0.06)" }}
-          />
-        </Box>
 
         {/* actions */}
         <Box sx={{ mt: 2, display: "flex", gap: 1, flexWrap: "wrap" }}>
