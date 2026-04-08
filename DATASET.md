@@ -2,7 +2,6 @@
 
 This document provides a complete overview of all datasets used in the **Krishna’s Lens** project, including their structure, purpose, preprocessing, and usage within the ML + RAG pipeline.
 
----
 
 ## Overview
 
@@ -12,7 +11,6 @@ The project uses **three primary datasets**:
 2. **Context Dataset** → for life-context classification
 3. **Bhagavad Gita Dataset** → for RAG-based knowledge retrieval
 
----
 
 # Emotion Dataset
 
@@ -61,8 +59,6 @@ self_doubt
   * Query enrichment
   * RAG retrieval guidance
 
----
-
 # Context Dataset
 
 ## Purpose
@@ -107,8 +103,6 @@ self_identity
   * Query construction
   * Retrieval relevance improvement
 
----
-
 # Bhagavad Gita Dataset
 
 ## Purpose
@@ -151,7 +145,6 @@ data/gita_cleaned.csv
 | gita_embeddings.npy | Vector embeddings  |
 | gita_index.faiss    | FAISS vector index |
 
----
 
 ## 🔍 Usage in RAG Pipeline
 
@@ -161,7 +154,6 @@ data/gita_cleaned.csv
 4. Cross-Encoder re-ranks candidates
 5. Top 3 verses are selected
 
----
 
 # 🔗 Dataset Flow in System
 
@@ -177,7 +169,6 @@ Query Enrichment
 Gita Dataset → Embeddings → FAISS → Retrieval
 ```
 
----
 
 # 📊 Dataset Quality Considerations
 
@@ -196,7 +187,6 @@ Gita Dataset → Embeddings → FAISS → Retrieval
 * Philosophical language differs from modern user queries
 * Query enrichment required to bridge semantic gap
 
----
 
 # ⚠️ Limitations
 
@@ -204,8 +194,6 @@ Gita Dataset → Embeddings → FAISS → Retrieval
 * Context classification may not capture multi-domain problems
 * Gita interpretations depend on embedding quality
 * Small dataset size (~700 verses) limits retrieval diversity
-
----
 
 # 🚀 Future Improvements
 
