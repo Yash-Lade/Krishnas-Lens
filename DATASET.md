@@ -21,7 +21,7 @@ Used to train the **Emotion Classification Model** that detects the emotional st
 ## File
 
 ```
-data/emotion_dataset_final.csv
+Machine_Learning/model_training/data/emotion_dataset_final.csv
 ```
 
 ## 📂 Structure
@@ -68,7 +68,7 @@ Used to classify the **life domain/context** of the user's problem.
 ## File
 
 ```
-data/context_dataset.csv
+Machine_Learning/model_training/data/context_dataset.csv
 ```
 
 ## 📂 Structure
