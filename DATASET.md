@@ -112,7 +112,7 @@ Serves as the **knowledge base** for the RAG (Retrieval-Augmented Generation) sy
 ## File
 
 ```
-data/gita_verses.csv
+Machine_Learning/datasets/gita_cleaned.csv
 data/gita_cleaned.csv
 ```
 
