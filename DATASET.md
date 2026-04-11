@@ -14,24 +14,24 @@ The project uses **three primary datasets**:
 
 # Emotion Dataset
 
-## Purpose
+### Purpose
 
 Used to train the **Emotion Classification Model** that detects the emotional state of the user from input text.
 
-## File
+### File
 
 ```
 Machine_Learning/model_training/data/emotion_dataset_final.csv
 ```
 
-## 📂 Structure
+### 📂 Structure
 
 | Column  | Description     |
 | ------- | --------------- |
 | text    | User input text |
 | emotion | Emotion label   |
 
-## 🏷️ Emotion Classes
+### 🏷️ Emotion Classes
 
 ```
 anger
@@ -43,14 +43,14 @@ sadness
 self_doubt
 ```
 
-## 🛠️ Data Preparation
+### 🛠️ Data Preparation
 
 * Combined multiple open-source datasets (e.g., Twitter emotion datasets)
 * Normalized labels into unified categories
 * Removed noisy/duplicate entries
 * Balanced dataset across classes (~equal samples per class)
 
-## ⚙️ Usage
+### ⚙️ Usage
 
 * Model: **SVM (LinearSVC)**
 * Vectorizer: **TF-IDF**
@@ -61,24 +61,24 @@ self_doubt
 
 # Context Dataset
 
-## Purpose
+### Purpose
 
 Used to classify the **life domain/context** of the user's problem.
 
-## File
+### File
 
 ```
 Machine_Learning/model_training/data/context_dataset.csv
 ```
 
-## 📂 Structure
+### 📂 Structure
 
 | Column  | Description     |
 | ------- | --------------- |
 | text    | User input text |
 | context | Context label   |
 
-## 🏷️ Context Classes
+### 🏷️ Context Classes
 
 ```
 academics
@@ -88,13 +88,13 @@ future_career
 self_identity
 ```
 
-## 🛠️ Data Preparation
+### 🛠️ Data Preparation
 
 * Manually curated dataset based on real-life student scenarios
 * Designed to reflect common teenage challenges
 * Ensured balanced representation across all classes
 
-## ⚙️ Usage
+### ⚙️ Usage
 
 * Model: **SVM (LinearSVC)**
 * Vectorizer: **TF-IDF**
@@ -105,18 +105,18 @@ self_identity
 
 # Bhagavad Gita Dataset
 
-## Purpose
+### Purpose
 
 Serves as the **knowledge base** for the RAG (Retrieval-Augmented Generation) system.
 
-## File
+### File
 
 ```
 Machine_Learning/datasets/gita_cleaned.csv
 data/gita_cleaned.csv
 ```
 
-## 📂 Structure
+### 📂 Structure
 
 | Column  | Description            |
 | ------- | ---------------------- |
@@ -125,7 +125,7 @@ data/gita_cleaned.csv
 | text    | Original verse text    |
 | meaning | Simplified explanation |
 
-## 🛠️ Preprocessing
+### 🛠️ Preprocessing
 
 * Removed null values
 * Cleaned and normalized text (lowercasing, trimming)
@@ -138,7 +138,7 @@ data/gita_cleaned.csv
 
   * **SentenceTransformer (all-MiniLM-L6-v2)**
 
-## 📦 Derived Artifacts
+### 📦 Derived Artifacts
 
 | File                | Description        |
 | ------------------- | ------------------ |
@@ -146,7 +146,7 @@ data/gita_cleaned.csv
 | gita_index.faiss    | FAISS vector index |
 
 
-## 🔍 Usage in RAG Pipeline
+### 🔍 Usage in RAG Pipeline
 
 1. User query is constructed and enriched
 2. Converted into embedding
