@@ -12,7 +12,7 @@ The project uses **three primary datasets**:
 3. **Bhagavad Gita Dataset** → for RAG-based knowledge retrieval
 
 
-# Emotion Dataset
+## Emotion Dataset
 
 ### Purpose
 
@@ -59,7 +59,7 @@ self_doubt
   * Query enrichment
   * RAG retrieval guidance
 
-# Context Dataset
+## Context Dataset
 
 ### Purpose
 
@@ -103,7 +103,7 @@ self_identity
   * Query construction
   * Retrieval relevance improvement
 
-# Bhagavad Gita Dataset
+## Bhagavad Gita Dataset
 
 ### Purpose
 
@@ -155,7 +155,7 @@ data/gita_cleaned.csv
 5. Top 3 verses are selected
 
 
-# 🔗 Dataset Flow in System
+## 🔗 Dataset Flow in System
 
 ```text
 User Input
@@ -170,7 +170,7 @@ Gita Dataset → Embeddings → FAISS → Retrieval
 ```
 
 
-# 📊 Dataset Quality Considerations
+## 📊 Dataset Quality Considerations
 
 ### Emotion Dataset
 
@@ -188,14 +188,14 @@ Gita Dataset → Embeddings → FAISS → Retrieval
 * Query enrichment required to bridge semantic gap
 
 
-# ⚠️ Limitations
+## ⚠️ Limitations
 
 * Emotion detection limited to predefined categories
 * Context classification may not capture multi-domain problems
 * Gita interpretations depend on embedding quality
 * Small dataset size (~700 verses) limits retrieval diversity
 
-# 🚀 Future Improvements
+## 🚀 Future Improvements
 
 * Expand emotion classes using deep learning (BERT)
 * Add multi-label context classification
@@ -204,7 +204,7 @@ Gita Dataset → Embeddings → FAISS → Retrieval
 
 ---
 
-# 🙏 Acknowledgment
+## 🙏 Acknowledgment
 
 The Bhagavad Gita dataset is used as a **philosophical knowledge base** to provide reflective guidance. Interpretations are simplified for accessibility and educational purposes.
 
