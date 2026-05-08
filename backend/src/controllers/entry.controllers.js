@@ -28,6 +28,18 @@ const createEntry = asyncHandler(async (req, res) => {
 
   console.log("ENTRY CREATE CALLED");
 
+  const VALID_MOODS = [
+    "calm", "happy", "sad", "angry", "anxious", "confused", "stressed", "tired",
+    "pressure", "fear", "self_doubt", "comparison", "sadness", "anger",
+    "neutral", "motivation", "loneliness", "overthinking"
+  ];
+
+  const normalizeMood = (emotion) => {
+    if (!emotion || typeof emotion !== "string") return "neutral";
+    const normalized = emotion.toLowerCase().trim();
+    return VALID_MOODS.includes(normalized) ? normalized : "neutral";
+  };
+
   let emotion = "neutral";
   let context = "life";
 
@@ -74,7 +86,7 @@ const createEntry = asyncHandler(async (req, res) => {
   const entry = await Entry.create({
     userId,
     thoughtText: thoughtText.trim(),
-    mood: mood || emotion || "calm",
+    mood: normalizeMood(mood || emotion),
     severity: severity || "low",
     emotionalLens,
     strategicLens,
@@ -164,7 +176,7 @@ const updateEntry = asyncHandler(async (req, res) => {
   if (mood) entry.mood = mood;
   if (severity) entry.severity = severity;
 
-  await entry.save();
+  await entry.save({ validateBeforeSave: true });
 
   return res
     .status(200)
