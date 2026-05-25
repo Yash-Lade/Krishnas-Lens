@@ -2,9 +2,11 @@ import axios from "axios";
 
 export const analyzeThought = async (thoughtText) => {
   try {
+    const mlApiUrl = process.env.ML_API_URL || "http://127.0.0.1:8000";
+    const cleanMlApiUrl = mlApiUrl.endsWith("/") ? mlApiUrl.slice(0, -1) : mlApiUrl;
 
     const response = await axios.post(
-      "http://127.0.0.1:8000/analyze",
+      `${cleanMlApiUrl}/analyze`,
       {
         text: thoughtText
       }
