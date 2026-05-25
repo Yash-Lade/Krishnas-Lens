@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from pathlib import Path
 from pydantic import BaseModel
 import joblib
 import numpy as np
@@ -11,9 +12,14 @@ import json
 from dotenv import load_dotenv
 from groq import Groq
 
-load_dotenv()
+# This finds the directory where app.py lives
+env_path = Path(__file__).parent / ".env"
+load_dotenv(dotenv_path=env_path)
 
 api_key = os.getenv("GROQ_API_KEY")
+
+if not api_key:
+    raise ValueError("GROQ_API_KEY not found in environment. Check your .env file.")
 client = Groq(api_key=api_key)
 
 app = FastAPI()
